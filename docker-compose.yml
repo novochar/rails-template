@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  app:
+    build: .
+    volumes:
+      - ./app:/usr/src/app
+    environment:
+      APP_DATABASE_USER: rails_dev
+      APP_DATABASE_PASSWORD: password
+    links: 
+      - db
+    command: bash -c "yarn install && 
+          bundle install &&
+          rails db:setup && 
+          rails db:migrate &&
+          yarn install &&
+          rails s -p 8080"
+    ports:
+      - 8080:8080
+
+  db:
+    image: postgres:12
+    restart: always
+    environment:
+      POSTGRES_USER: rails_dev
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+      
