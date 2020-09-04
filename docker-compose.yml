@@ -12,12 +12,12 @@ services:
       - db
     command: bash -c "yarn install && 
           bundle install &&
-          rails db:setup && 
+          rails db:create && 
           rails db:migrate &&
           yarn install &&
           rails s -p 8080"
     ports:
-      - 8080:8080
+      - "8080:8080"
 
   db:
     image: postgres:12
@@ -28,5 +28,5 @@ services:
     volumes:
       - ./db:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "5432:5432"
       
